@@ -16,8 +16,9 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template').c
 function init() {
   userDialog.classList.remove('hidden');
   setupSimilarWizards.classList.remove('hidden');
+
+  renderWizards();
 }
-renderWizards();
 init();
 
 
@@ -36,7 +37,7 @@ function renderWizards() {
 // Генерирует шаблон волшебника
 function renderWizard(wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.names + '\n ' + wizard.surnames;
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
   return wizardElement;
@@ -45,13 +46,10 @@ function renderWizard(wizard) {
 
 // Функция, возвращает массив магов
 function generateWizards() {
-  var shuffleWizardNames = shuffleArray(NAMES);
-  var shuffleWizardSurnames = shuffleArray(SURNAMES);
   var wizards = [];
   for (var i = 0; i < COUNT; i++) {
     wizards.push({
-      names: shuffleWizardNames[i],
-      surnames: shuffleWizardSurnames[i],
+      name: getRandomElement(NAMES) + ' ' + getRandomElement(SURNAMES),
       coatColor: getRandomElement(COAT_COLOR),
       eyesColor: getRandomElement(EYES_COLOR)
     });
@@ -60,24 +58,8 @@ function generateWizards() {
 }
 
 
-// Возвращает новый массив из старого в случайном порядке
-function shuffleArray(array) {
-  var mixedArray = array.slice();
-  for (var i = mixedArray.length - 1; i > 0; i--) {
-    var randomIndex = Math.floor(Math.random() * (i + 1));
-    var tempValue = mixedArray[i];
-    mixedArray[i] = array[randomIndex];
-    mixedArray[randomIndex] = tempValue;
-  }
-  return mixedArray;
-}
-
-
 // Возвращает случайный элемемент массива
 function getRandomElement(array) {
-  for (var i = 0; i < array.length; i++) {
-    var randomIndex = Math.floor(Math.random() * array.length);
-    var randomElement = array[randomIndex];
-  }
-  return randomElement;
+  var randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
 }
